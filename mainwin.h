@@ -9,6 +9,8 @@
 #include <QGraphicsView>
 #include <QLabel>
 
+#include "svgview.h"
+
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -23,7 +25,7 @@ private slots:
     void onBtnBrowse();
     void onDirSelected(QString dir);
     void onCLickFileName(QModelIndex, QModelIndex);
-
+    bool loadFile(const QString &fileName);
 
 private:
     QLineEdit *m_dirName; // directory input box
@@ -34,8 +36,11 @@ private:
     QLineEdit     *m_tagEdit; // tag name to search for
     QPushButton   *m_btnSearch; // search button
 
-    QGraphicsView *m_svgView; // SVG viewing area
-    QLabel         *m_imgTags; // tags related to the image
+   // QGraphicsView *m_svgView; // SVG viewing area
+    QLineEdit         *m_imgTags; // tags related to the image
+
+    SvgView *m_svgView;
+    QString m_currentPath;
 
 
 };

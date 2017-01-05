@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,6 +13,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwin.cpp
+        mainwin.cpp \
+        svgview.cpp
 
-HEADERS  += mainwin.h
+HEADERS  += mainwin.h \
+    svgview.h

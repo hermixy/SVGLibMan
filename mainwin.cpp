@@ -3,9 +3,11 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QFileDialog>
+#include <QMessageBox>
+#include <QApplication>
 
 Widget::Widget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), m_svgView(new SvgView)
 {
     //directory name box and button
     m_dirName = new QLineEdit(this);
@@ -29,8 +31,8 @@ Widget::Widget(QWidget *parent)
     layout3->addLayout(layout2);
 
     //svg view box and tag display area
-    m_svgView = new QGraphicsView(this);
-    m_imgTags = new QLabel(this);
+    //m_svgView = new QGraphicsView(this);
+    m_imgTags = new QLineEdit(this);
     m_imgTags->setText("all tags here");
     QVBoxLayout *layout4 = new QVBoxLayout();
     layout4->addWidget(m_svgView);
@@ -126,6 +128,37 @@ void Widget::onCLickFileName(QModelIndex m, QModelIndex old)
 
    //show as tag for now
    m_imgTags->setText(modelPath);
+   loadFile(modelPath);
 
    Q_UNUSED(old)
+}
+
+bool Widget::loadFile(const QString &fileName)
+{
+    if (!QFileInfo::exists(fileName) || !m_svgView->openFile(fileName)) {
+       // QMessageBox::critical(this, tr("Open SVG File"),
+       //                       tr("Could not open file '%1'.").arg(QDir::toNativeSeparators(fileName)));
+        return false;
+    }
+
+/*
+    if (!fileName.startsWith(":/")) {
+        m_currentPath = fileName;
+        setWindowFilePath(fileName);
+        const QSize size = m_svgView->svgSize();
+        const QString message =
+            tr("Opened %1, %2x%3").arg(QFileInfo(fileName).fileName()).arg(size.width()).arg(size.width());
+        //statusBar()->showMessage(message);
+        QMessageBox::information(this, "Info", message);
+    }
+
+    m_outlineAction->setEnabled(true);
+    m_backgroundAction->setEnabled(true);
+    */
+
+    //const QSize availableSize = QApplication::desktop()->availableGeometry(this).size();
+   // const QSize availSize = m_svgView->size();
+    //resize(m_svgView->sizeHint().expandedTo(availSize / 4) + QSize(80, 80 + 20));
+
+    return true;
 }
